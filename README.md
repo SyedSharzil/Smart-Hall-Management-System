@@ -71,3 +71,12 @@ A browser-based hall management system with separate student and admin workflows
 
 - See [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) for the full folder map.
 - See [SECURITY.md](SECURITY.md) for security guidance.
+
+<h2>From,</h2>
+<h3>
+Raufir Zaman Choudhury,
+Md. Mueid Shahriar & 
+Syed Sharzil Ahmmed
+</h3>
+
+<h2>Thanks!</h2>                                                              
