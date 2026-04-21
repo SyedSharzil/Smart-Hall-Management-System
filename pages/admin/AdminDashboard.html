@@ -101,6 +101,19 @@
                         </div>
                     </div>
                 </div>
+                <div class="card fusion">
+                    <span class="material-icons card-icon">face_recognition</span>
+                    <div class="section-info">
+                        <h2>Biometric System</h2>
+                        <p>Hall Fusion - Face & Fingerprint Authentication</p>
+                        <button class="action-btn" onclick="goToFusion()">Access</button>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+    </div>
 
             </div>
         </main>
@@ -125,7 +138,36 @@
         };
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 </script>
+<!-- Add this before </body> -->
+<!-- filepath: /d:/bip bop/website/new mgi/newwebsite/Smart-Hall-Management-System/pages/admin/AdminDashboard.html -->
 
+<script>
+    function goToFusion() {
+        // Detect environment (local vs production)
+        const isLocalhost = window.location.hostname === 'localhost' || 
+                           window.location.hostname === '127.0.0.1';
+        
+        let fusionUrl;
+        
+        if (isLocalhost) {
+            // Local development
+            fusionUrl = 'http://localhost:8000/demo-website/fusion.html';
+        } else {
+            // Production (Vercel)
+            // Option 1: If deploying same repo
+            fusionUrl = window.location.origin + '/demo-website/fusion.html';
+            
+            // Option 2: If deploying separate Vercel project
+            // fusionUrl = 'https://your-fusion-vercel-url.vercel.app/fusion.html';
+            
+            // Option 3: If deploying to custom domain
+            // fusionUrl = 'https://fusion.yourdomain.com/fusion.html';
+        }
+        
+        console.log('🔗 Opening Fusion:', fusionUrl);
+        window.open(fusionUrl, '_blank');
+    }
+</script>
     <script src="../../scripts/AdminDashboard.js"></script>
 </body>
 

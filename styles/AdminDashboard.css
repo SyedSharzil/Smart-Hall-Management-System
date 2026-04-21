@@ -61,7 +61,47 @@
     text-align: center;
     animation: pulse-badge 1.5s ease-in-out infinite;
 }
+/* Fusion Card Styling */
+.card.fusion {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
 
+.card.fusion .card-icon {
+    color: #fbbf24;
+    font-size: 2.5rem;
+}
+
+.card.fusion h2 {
+    color: white;
+    font-size: 1.3rem;
+}
+
+.card.fusion p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+}
+
+.card.fusion .action-btn {
+    background: #fbbf24;
+    color: #667eea;
+    font-weight: 600;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.card.fusion .action-btn:hover {
+    background: #f59e0b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+}
+
+.card.fusion .action-btn:active {
+    transform: translateY(0);
+}
 @keyframes pulse-badge {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.15); }

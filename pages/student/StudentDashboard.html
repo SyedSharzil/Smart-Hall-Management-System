@@ -101,7 +101,16 @@
             <button class="sos-btn">Send SOS</button>
           </div>
         </div>
+<!-- Add this to StudentDashboard.html in the dashboard section -->
 
+<div class="card face-registration">
+  <span class="material-icons card-icon">face</span>
+  <div class="section-info">
+      <h2>Register Face</h2>
+      <p>Register your face for automatic attendance</p>
+      <button class="action-btn" id="faceRegisterBtn">Register</button>
+  </div>
+</div>
       </div>
     </main>
 
@@ -124,6 +133,23 @@
         appId: "1:200038506273:web:2e141fc9ec36de049ae860"
     };
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+</script>
+<script>
+  // Face Registration Button Handler
+  document.getElementById('faceRegisterBtn').addEventListener('click', function() {
+      // Get current user's student ID from Firebase or session
+      // This assumes you have a way to get the current logged-in student ID
+      
+      const studentId = localStorage.getItem('studentId') || sessionStorage.getItem('studentId');
+      
+      if (!studentId) {
+          alert('Student ID not found. Please log in again.');
+          return;
+      }
+
+      // Redirect to face registration page with student ID as parameter
+      window.location.href = `FaceRegister.html?studentId=${studentId}`;
+  });
 </script>
 <script src="../../scripts/StudentDashboard.js"></script>
 </body>
