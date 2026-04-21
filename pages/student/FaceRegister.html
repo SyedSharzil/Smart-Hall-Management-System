@@ -3,1423 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Face Registration - Hall Fusion System</title>
+    <title>Register Face | Smart Hall</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles/base.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            color: white;
-            margin-bottom: 40px;
-            padding: 30px 20px;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
-        .btn-back {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            border: 2px solid white;
-        }
-
-        .btn-back:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateX(-5px);
-        }
-
-        .registration-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-
-        .card {
+        .face-register-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
             background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 30px 20px;
-            color: white;
-            text-align: center;
-        }
-
-        .card-header h2 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .card-header .material-icons {
-            font-size: 2em;
-        }
-
-        .card-header p {
-            opacity: 0.9;
-            font-size: 0.95em;
-        }
-
-        .card-content {
-            padding: 30px;
-        }
-
-        .video-preview {
-            width: 100%;
-            height: 300px;
-            background: #f5f5f5;
             border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            border: 2px solid #e0e0e0;
-            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-
-        #video, #uploadPreview {
+        
+        .camera-preview {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
+            max-width: 500px;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            margin: 1rem 0;
         }
-
-        .video-placeholder {
-            width: 100%;
-            height: 100%;
+        
+        .button-group {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            background: #f5f5f5;
+            gap: 1rem;
+            margin-top: 1.5rem;
         }
-
-        .video-placeholder .material-icons {
-            font-size: 3em;
-        }
-
-        .capture-controls {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .btn-custom {
-            padding: 12px 30px;
+        
+        .btn {
+            flex: 1;
+            padding: 0.8rem;
             border: none;
-            border-radius: 8px;
-            font-size: 1em;
+            border-radius: 5px;
+            font-size: 1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            justify-content: center;
+            transition: all 0.3s;
         }
-
-        .btn-primary-custom {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        
+        .btn-primary {
+            background: #667eea;
             color: white;
         }
-
-        .btn-primary-custom:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        
+        .btn-primary:hover {
+            background: #5568d3;
         }
-
-        .btn-primary-custom:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .btn-danger-custom {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-        }
-
-        .btn-danger-custom:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(240, 147, 251, 0.4);
-        }
-
-        .btn-danger-custom:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .btn-success-custom {
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-            color: white;
-        }
-
-        .btn-success-custom:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(67, 233, 123, 0.4);
-        }
-
-        .btn-success-custom:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .btn-secondary-custom {
+        
+        .btn-secondary {
             background: #e0e0e0;
             color: #333;
         }
-
-        .btn-secondary-custom:hover {
+        
+        .btn-secondary:hover {
             background: #d0d0d0;
         }
-
-        .form-group {
-            margin-bottom: 20px;
+        
+        .status-message {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+            text-align: center;
         }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1em;
-            transition: all 0.3s ease;
-            background: #f9f9f9;
-        }
-
-        .form-group input:disabled,
-        .form-group select:disabled {
-            background: #e8e8e8;
-            cursor: not-allowed;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .file-input-wrapper {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-            width: 100%;
-        }
-
-        .file-input-wrapper input[type="file"] {
-            position: absolute;
-            left: -9999px;
-        }
-
-        .file-input-label {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 20px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-            border: 2px dashed #667eea;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .file-input-label:hover {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
-            border-color: #764ba2;
-        }
-
-        .file-input-label .material-icons {
-            font-size: 2em;
-            color: #667eea;
-        }
-
-        .status-box {
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: none;
-            border-left: 4px solid #667eea;
-            animation: slideDown 0.3s ease;
-        }
-
-        .status-box.show {
-            display: block;
-        }
-
-        .status-box.success {
+        
+        .status-success {
             background: #d4edda;
             color: #155724;
-            border-left-color: #28a745;
+            border: 1px solid #c3e6cb;
         }
-
-        .status-box.error {
+        
+        .status-error {
             background: #f8d7da;
             color: #721c24;
-            border-left-color: #dc3545;
+            border: 1px solid #f5c6cb;
         }
-
-        .status-box.warning {
-            background: #fff3cd;
-            color: #856404;
-            border-left-color: #ffc107;
-        }
-
-        .status-box.info {
+        
+        .status-info {
             background: #d1ecf1;
             color: #0c5460;
-            border-left-color: #17a2b8;
-        }
-
-        .status-box.loading {
-            background: #e7f3ff;
-            color: #004085;
-            border-left-color: #0c5460;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .progress-container {
-            margin-bottom: 20px;
-        }
-
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 0.9em;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .progress-bar-custom {
-            width: 100%;
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .student-info {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border-left: 4px solid #667eea;
-        }
-
-        .student-info h3 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .info-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 10px;
-        }
-
-        .info-item {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .info-label {
-            font-weight: 600;
-            color: #666;
-        }
-
-        .info-value {
-            color: #333;
-        }
-
-        .settings-box {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .settings-box h3 {
-            color: #333;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .setting-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .setting-item:last-child {
-            border-bottom: none;
-        }
-
-        .setting-item label {
-            font-weight: 500;
-            color: #333;
-            margin: 0;
-        }
-
-        .toggle-switch {
-            position: relative;
-            width: 50px;
-            height: 26px;
-            background: #ccc;
-            border-radius: 13px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .toggle-switch.active {
-            background: #667eea;
-        }
-
-        .toggle-switch::after {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 22px;
-            height: 22px;
-            background: white;
-            border-radius: 50%;
-            transition: left 0.3s;
-        }
-
-        .toggle-switch.active::after {
-            left: 26px;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 0;
-            margin-bottom: 0;
-            background: #f5f5f5;
-            border-radius: 15px 15px 0 0;
-            overflow: hidden;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 15px 20px;
-            border: none;
-            background: none;
-            cursor: pointer;
-            font-weight: 600;
-            color: #666;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        #captureCanvas {
-            display: none;
-        }
-
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .success-card {
-            max-width: 600px;
-            margin: 30px auto;
-        }
-
-        .success-card .card-header {
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-        }
-
-        .success-card .card-content {
-            text-align: center;
-        }
-
-        .already-registered-card {
-            max-width: 600px;
-            margin: 30px auto;
-        }
-
-        .already-registered-card .card-header {
-            background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
-        }
-
-        .already-registered-card .card-content {
-            text-align: center;
-        }
-
-        @media (max-width: 768px) {
-            .registration-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .header h1 {
-                font-size: 1.8em;
-            }
-
-            .info-row {
-                grid-template-columns: 1fr;
-            }
-
-            .tabs {
-                flex-wrap: wrap;
-            }
-
-            .tab-btn {
-                flex: 1 1 50%;
-            }
+            border: 1px solid #bee5eb;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <h1>🎯 Face Registration</h1>
-            <p>Register your face for automatic hall attendance and authentication</p>
-            <a href="StudentDashboard.html" class="btn-back">← Back to Dashboard</a>
-        </div>
-
-        <!-- Loading State -->
-        <div id="loadingState" class="card" style="max-width: 600px; margin: 30px auto;">
-            <div class="card-header">
-                <h2>
-                    <span class="material-icons">hourglass_empty</span>
-                    Loading...
-                </h2>
-            </div>
-            <div class="card-content" style="text-align: center;">
-                <div class="spinner"></div>
-                <p>Checking your registration status...</p>
-            </div>
-        </div>
-
-        <!-- Already Registered Card -->
-        <div id="alreadyRegisteredCard" class="card already-registered-card hidden">
-            <div class="card-header">
-                <h2>
-                    <span class="material-icons">check_circle</span>
-                    Already Registered
-                </h2>
-            </div>
-            <div class="card-content">
-                <p style="font-size: 1.1em; color: #ff9800; margin-bottom: 20px;">
-                    ⚠️ Your face is already registered in the system.
-                </p>
-                <div class="student-info" id="alreadyRegisteredInfo"></div>
-                <p style="color: #666; margin-bottom: 20px;">
-                    Each student can only register their face once. If you need to update your face registration, please contact the administrator.
-                </p>
-                <div class="capture-controls" style="flex-direction: column; gap: 15px;">
-                    <button onclick="redirectToDashboard()" class="btn-custom btn-primary-custom" style="width: 100%;">
-                        <span class="material-icons">home</span>
-                        Go to Dashboard
-                    </button>
-                    <button onclick="contactAdmin()" class="btn-custom btn-secondary-custom" style="width: 100%;">
-                        <span class="material-icons">email</span>
-                        Contact Administrator
-                    </button>
+        <main>
+            <div class="face-register-container">
+                <h1>📸 Register Your Face</h1>
+                <p>Register your face for automatic attendance tracking</p>
+                
+                <div id="statusMessage"></div>
+                
+                <video id="cameraPreview" class="camera-preview" autoplay playsinline></video>
+                
+                <canvas id="canvas" style="display:none;"></canvas>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" id="captureBtn">📷 Capture Photo</button>
+                    <button class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                </div>
+                
+                <div id="loadingSpinner" style="display:none; text-align:center; margin:1rem 0;">
+                    <p>Processing... Please wait</p>
                 </div>
             </div>
-        </div>
-
-        <!-- Main Registration Content -->
-        <div id="mainContent" class="registration-grid hidden">
-            <!-- LEFT: Live Camera Capture -->
-            <div class="card">
-                <div class="tabs">
-                    <button class="tab-btn active" onclick="switchTab(event, 'camera')">
-                        <span class="material-icons">photo_camera</span> Camera
-                    </button>
-                    <button class="tab-btn" onclick="switchTab(event, 'upload')">
-                        <span class="material-icons">image</span> Upload
-                    </button>
-                </div>
-
-                <!-- Camera Tab -->
-                <div id="camera" class="tab-content active">
-                    <div class="card-header">
-                        <h2>
-                            <span class="material-icons">videocam</span>
-                            Live Camera
-                        </h2>
-                        <p>Capture your face using your device camera</p>
-                    </div>
-
-                    <div class="card-content">
-                        <!-- Status Messages -->
-                        <div id="cameraStatus" class="status-box"></div>
-
-                        <!-- Camera Settings -->
-                        <div class="settings-box">
-                            <h3>
-                                <span class="material-icons">tune</span>
-                                Camera Settings
-                            </h3>
-                            <div class="setting-item">
-                                <label>Mirror Mode</label>
-                                <div id="mirrorToggle" class="toggle-switch active" onclick="toggleMirrorMode()"></div>
-                            </div>
-                        </div>
-
-                        <!-- Video Preview -->
-                        <div class="video-preview">
-                            <video id="video" playsinline autoplay muted></video>
-                            <div id="videoPlaceholder" class="video-placeholder">
-                                <span class="material-icons">videocam</span>
-                            </div>
-                        </div>
-
-                        <!-- Controls -->
-                        <div class="capture-controls">
-                            <button id="startCameraBtn" class="btn-custom btn-primary-custom">
-                                <span class="material-icons">play_arrow</span>
-                                Start Camera
-                            </button>
-                            <button id="stopCameraBtn" class="btn-custom btn-danger-custom" disabled>
-                                <span class="material-icons">stop</span>
-                                Stop Camera
-                            </button>
-                        </div>
-
-                        <div class="capture-controls">
-                            <button id="capturePhotoBtn" class="btn-custom btn-success-custom" disabled>
-                                <span class="material-icons">camera</span>
-                                Capture Photo
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Upload Tab -->
-                <div id="upload" class="tab-content">
-                    <div class="card-header">
-                        <h2>
-                            <span class="material-icons">cloud_upload</span>
-                            Upload Image
-                        </h2>
-                        <p>Upload a photo from your device</p>
-                    </div>
-
-                    <div class="card-content">
-                        <!-- Status Messages -->
-                        <div id="uploadStatus" class="status-box"></div>
-
-                        <!-- Upload Preview -->
-                        <div class="video-preview">
-                            <img id="uploadPreview" src="" alt="Upload preview" style="display: none;">
-                            <div id="uploadPlaceholder" class="video-placeholder">
-                                <span class="material-icons">image</span>
-                            </div>
-                        </div>
-
-                        <!-- File Upload -->
-                        <div class="file-input-wrapper">
-                            <input type="file" id="imageUpload" accept="image/*" onchange="handleImageUpload(event)">
-                            <label for="imageUpload" class="file-input-label">
-                                <span class="material-icons">add_photo_alternate</span>
-                                <div>
-                                    <strong>Click or drag to upload</strong>
-                                    <p style="font-size: 0.9em; margin-top: 5px;">Supported: JPG, PNG (Max 10MB)</p>
-                                </div>
-                            </label>
-                        </div>
-
-                        <!-- Drag and Drop -->
-                        <div id="dropZone" style="margin-top: 20px; padding: 20px; border: 2px dashed #ddd; border-radius: 8px; text-align: center; cursor: pointer; transition: all 0.3s ease;">
-                            <p style="color: #999;">📁 Or drag your image here</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- RIGHT: Registration Form -->
-            <div class="card">
-                <div class="card-header">
-                    <h2>
-                        <span class="material-icons">person_add</span>
-                        Registration Details
-                    </h2>
-                    <p>Complete your face registration</p>
-                </div>
-
-                <div class="card-content">
-                    <!-- Progress -->
-                    <div class="progress-container">
-                        <div class="progress-label">
-                            <span>Progress</span>
-                            <span id="progressPercent">0%</span>
-                        </div>
-                        <div class="progress-bar-custom">
-                            <div id="progressFill" class="progress-fill"></div>
-                        </div>
-                    </div>
-
-                    <!-- Status -->
-                    <div id="registrationStatus" class="status-box"></div>
-
-                    <!-- Student Information (Pre-filled and Disabled) -->
-                    <div class="form-group">
-                        <label for="studentId">
-                            <span class="material-icons" style="font-size: 1.2em; vertical-align: middle; margin-right: 5px;">badge</span>
-                            Student ID
-                        </label>
-                        <input type="text" id="studentId" disabled>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="studentName">
-                            <span class="material-icons" style="font-size: 1.2em; vertical-align: middle; margin-right: 5px;">person</span>
-                            Full Name
-                        </label>
-                        <input type="text" id="studentName" disabled>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">
-                            <span class="material-icons" style="font-size: 1.2em; vertical-align: middle; margin-right: 5px;">email</span>
-                            Email Address
-                        </label>
-                        <input type="email" id="email" disabled>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="department">
-                            <span class="material-icons" style="font-size: 1.2em; vertical-align: middle; margin-right: 5px;">business</span>
-                            Department
-                        </label>
-                        <input type="text" id="department" disabled>
-                    </div>
-
-                    <!-- Terms & Conditions -->
-                    <div class="form-group" style="margin-top: 20px;">
-                        <label style="display: flex; align-items: center; gap: 10px; font-weight: 500; cursor: pointer;">
-                            <input type="checkbox" id="agreeTerms" required style="width: auto; cursor: pointer;">
-                            I agree to the face registration terms and confirm this is my face
-                        </label>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="capture-controls" style="flex-direction: column; gap: 15px; margin-top: 20px;">
-                        <button id="registerBtn" class="btn-custom btn-success-custom" style="width: 100%; font-size: 1.1em;" disabled>
-                            <span class="material-icons">check</span>
-                            Register Face
-                        </button>
-                        <button id="resetBtn" class="btn-custom btn-secondary-custom" style="width: 100%;">
-                            <span class="material-icons">refresh</span>
-                            Reset
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Success Card -->
-        <div id="successCard" class="card success-card hidden">
-            <div class="card-header">
-                <h2>
-                    <span class="material-icons" style="font-size: 2em;">done_all</span>
-                    Registration Successful!
-                </h2>
-            </div>
-            <div class="card-content">
-                <p style="font-size: 1.1em; color: #28a745; margin-bottom: 20px;">
-                    ✓ Your face has been successfully registered!
-                </p>
-                <div class="student-info" id="successInfo"></div>
-                <p style="color: #666; margin-bottom: 20px;">
-                    You can now use face authentication for automatic attendance and hall access.
-                </p>
-                <div class="capture-controls" style="flex-direction: column; gap: 15px;">
-                    <button onclick="redirectToDashboard()" class="btn-custom btn-success-custom" style="width: 100%;">
-                        <span class="material-icons">home</span>
-                        Go to Dashboard
-                    </button>
-                </div>
-            </div>
-        </div>
+        </main>
     </div>
 
-    <!-- Hidden Canvas -->
-    <canvas id="captureCanvas"></canvas>
-
-    <!-- Firebase Scripts -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-
+    <script src="../../scripts/sidebar.js"></script>
+    <script>initSidebar('student', 'dashboard');</script>
+    <script src="../../scripts/toast.js"></script>
+    
     <script>
-        // ===== FIREBASE CONFIG =====
-        const firebaseConfig = {
-            apiKey: "AIzaSyBF-nMMW5lG44JfHxx4HxCbf5N81geOiRs",
-            authDomain: "bauet-hms-63f5b.firebaseapp.com",
-            databaseURL: "https://bauet-hms-63f5b-default-rtdb.firebaseio.com",
-            projectId: "bauet-hms-63f5b",
-            storageBucket: "bauet-hms-63f5b.appspot.com",
-            messagingSenderId: "200038506273",
-            appId: "1:200038506273:web:2e141fc9ec36de049ae860"
-        };
-
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-
-        const db = firebase.database();
-
-        // ===== CONFIGURATION =====
-        const API_URL = 'http://localhost:5000';
+        console.log('🔍 FaceRegister.html loaded');
         
-        // ===== STATE VARIABLES =====
-        let stream = null;
-        let capturedImageData = null;
-        let isMirrorMode = true;
-        let currentStudentId = null;
-        let currentStudentData = null;
-
-        // ===== DOM ELEMENTS =====
-        const video = document.getElementById('video');
-        const videoPlaceholder = document.getElementById('videoPlaceholder');
-        const startCameraBtn = document.getElementById('startCameraBtn');
-        const stopCameraBtn = document.getElementById('stopCameraBtn');
-        const capturePhotoBtn = document.getElementById('capturePhotoBtn');
-        const registerBtn = document.getElementById('registerBtn');
-        const resetBtn = document.getElementById('resetBtn');
-        const studentIdInput = document.getElementById('studentId');
-        const studentNameInput = document.getElementById('studentName');
-        const emailInput = document.getElementById('email');
-        const departmentInput = document.getElementById('department');
-        const agreeTermsCheckbox = document.getElementById('agreeTerms');
-        const imageUpload = document.getElementById('imageUpload');
-        const dropZone = document.getElementById('dropZone');
-        const mainContent = document.getElementById('mainContent');
-        const loadingState = document.getElementById('loadingState');
-        const alreadyRegisteredCard = document.getElementById('alreadyRegisteredCard');
-        const successCard = document.getElementById('successCard');
-
-        // ===== INITIALIZATION =====
-        /**
-         * Initialize page - get student info from URL and check registration status
-         */
-        async function initializePage() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const studentId = urlParams.get('studentId');
+        
+        console.log('🆔 Student ID:', studentId);
+        
+        const video = document.getElementById('cameraPreview');
+        const canvas = document.getElementById('canvas');
+        const captureBtn = document.getElementById('captureBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const statusMessage = document.getElementById('statusMessage');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        
+        // Check if student ID exists
+        if (!studentId) {
+            showStatus('❌ Student ID not found. Please go back and try again.', 'error');
+            captureBtn.disabled = true;
+            console.error('❌ No student ID provided');
+        } else {
+            showStatus('✅ Loading camera... Please allow camera access', 'info');
+        }
+        
+        // Start camera
+        async function startCamera() {
             try {
-                console.log('🚀 Initializing Face Registration Page...');
-
-                // Get student ID from URL parameter
-                const urlParams = new URLSearchParams(window.location.search);
-                currentStudentId = urlParams.get('studentId');
-
-                if (!currentStudentId) {
-                    console.error('❌ No student ID provided');
-                    showErrorMessage('No student ID found. Please access from Student Dashboard.');
-                    return;
-                }
-
-                console.log('📍 Student ID:', currentStudentId);
-
-                // Fetch student data from Firebase
-                const studentSnapshot = await db.ref(`students/${currentStudentId}`).get();
-
-                if (!studentSnapshot.exists()) {
-                    console.error('❌ Student not found');
-                    showErrorMessage('Student not found in the system.');
-                    return;
-                }
-
-                currentStudentData = studentSnapshot.val();
-                console.log('📚 Student Data:', currentStudentData);
-
-                // Check if face is already registered
-                const isFaceRegistered = currentStudentData.faceRegistered === true;
-
-                if (isFaceRegistered) {
-                    console.log('⚠️ Face already registered');
-                    showAlreadyRegistered();
-                    return;
-                }
-
-                // Fill in student information
-                populateStudentInfo();
-
-                // Show main registration content
-                loadingState.classList.add('hidden');
-                mainContent.classList.remove('hidden');
-
-                console.log('✅ Page initialized successfully');
-
-            } catch (error) {
-                console.error('❌ Initialization error:', error);
-                showErrorMessage('Error loading student data: ' + error.message);
-            }
-        }
-
-        /**
-         * Populate student information from database
-         */
-        function populateStudentInfo() {
-            studentIdInput.value = currentStudentId;
-            studentNameInput.value = currentStudentData.name || '';
-            emailInput.value = currentStudentData.email || '';
-            departmentInput.value = currentStudentData.department || '';
-
-            console.log('✓ Student info populated');
-            updateProgress();
-        }
-
-        /**
-         * Show already registered message
-         */
-        function showAlreadyRegistered() {
-            loadingState.classList.add('hidden');
-            mainContent.classList.add('hidden');
-            alreadyRegisteredCard.classList.remove('hidden');
-
-            const alreadyRegisteredInfo = document.getElementById('alreadyRegisteredInfo');
-            alreadyRegisteredInfo.innerHTML = `
-                <div class="info-row">
-                    <div class="info-item">
-                        <span class="info-label">Student ID:</span>
-                        <span class="info-value"><strong>${currentStudentData.id || currentStudentId}</strong></span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Name:</span>
-                        <span class="info-value"><strong>${currentStudentData.name || 'N/A'}</strong></span>
-                    </div>
-                </div>
-                <div class="info-row">
-                    <div class="info-item">
-                        <span class="info-label">Registration Date:</span>
-                        <span class="info-value">${new Date(currentStudentData.faceRegisteredAt).toLocaleString()}</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Status:</span>
-                        <span class="info-value" style="color: #28a745;">✓ Registered</span>
-                    </div>
-                </div>
-            `;
-        }
-
-        /**
-         * Show error message
-         */
-        function showErrorMessage(message) {
-            loadingState.classList.add('hidden');
-            mainContent.classList.add('hidden');
-            
-            const errorCard = document.createElement('div');
-            errorCard.className = 'card';
-            errorCard.style.maxWidth = '600px';
-            errorCard.style.margin = '30px auto';
-            
-            errorCard.innerHTML = `
-                <div class="card-header" style="background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);">
-                    <h2>
-                        <span class="material-icons">error</span>
-                        Error
-                    </h2>
-                </div>
-                <div class="card-content" style="text-align: center;">
-                    <p style="font-size: 1.1em; color: #dc3545; margin-bottom: 20px;">
-                        ❌ ${message}
-                    </p>
-                    <button onclick="redirectToDashboard()" class="btn-custom btn-primary-custom" style="width: 100%;">
-                        <span class="material-icons">home</span>
-                        Go to Dashboard
-                    </button>
-                </div>
-            `;
-
-            document.querySelector('.container').appendChild(errorCard);
-        }
-
-        // ===== CAMERA FUNCTIONS =====
-        /**
-         * Start camera
-         */
-        startCameraBtn.addEventListener('click', async () => {
-            try {
-                console.log('📹 Requesting camera access...');
-                showStatus('Requesting camera access...', 'loading', 'cameraStatus');
-
-                stream = await navigator.mediaDevices.getUserMedia({
-                    video: {
-                        width: { ideal: 1280 },
-                        height: { ideal: 720 },
-                        facingMode: 'user'
-                    },
-                    audio: false
+                console.log('📹 Starting camera...');
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'user' }
                 });
-
                 video.srcObject = stream;
-                videoPlaceholder.style.display = 'none';
-                video.style.display = 'block';
-
-                startCameraBtn.disabled = true;
-                stopCameraBtn.disabled = false;
-                capturePhotoBtn.disabled = false;
-
                 console.log('✅ Camera started');
-                showStatus('✓ Camera ready! Click "Capture Photo" to take a photo.', 'success', 'cameraStatus');
             } catch (error) {
                 console.error('❌ Camera error:', error);
-                let errorMsg = 'Camera access denied';
-                
-                if (error.name === 'NotAllowedError') {
-                    errorMsg = 'Camera permission denied. Please enable camera in browser settings.';
-                } else if (error.name === 'NotFoundError') {
-                    errorMsg = 'No camera device found';
-                }
-
-                showStatus(errorMsg, 'error', 'cameraStatus');
+                showStatus(`❌ Camera access denied: ${error.message}`, 'error');
+                captureBtn.disabled = true;
             }
-        });
-
-        /**
-         * Stop camera
-         */
-        stopCameraBtn.addEventListener('click', () => {
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
-                stream = null;
+        }
+        
+        // Capture photo
+        captureBtn.addEventListener('click', async () => {
+            if (!studentId) {
+                showStatus('❌ Student ID not found', 'error');
+                return;
             }
-
-            video.srcObject = null;
-            video.style.display = 'none';
-            videoPlaceholder.style.display = 'flex';
-
-            startCameraBtn.disabled = false;
-            stopCameraBtn.disabled = true;
-            capturePhotoBtn.disabled = true;
-
-            console.log('🛑 Camera stopped');
-            showStatus('Camera stopped', 'info', 'cameraStatus');
-        });
-
-        /**
-         * Capture photo
-         */
-        capturePhotoBtn.addEventListener('click', () => {
+            
             try {
-                const canvas = document.getElementById('captureCanvas');
+                console.log('📷 Capturing photo for student:', studentId);
+                loadingSpinner.style.display = 'block';
+                captureBtn.disabled = true;
+                
+                const ctx = canvas.getContext('2d');
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
-                const ctx = canvas.getContext('2d');
-
-                if (isMirrorMode) {
-                    ctx.scale(-1, 1);
-                    ctx.drawImage(video, -canvas.width, 0);
-                } else {
-                    ctx.drawImage(video, 0, 0);
-                }
-
-                capturedImageData = canvas.toDataURL('image/jpeg', 0.95);
-
-                document.getElementById('uploadPreview').src = capturedImageData;
-                document.getElementById('uploadPreview').style.display = 'block';
-                document.getElementById('uploadPlaceholder').style.display = 'none';
-
-                updateProgress();
-                showStatus('✓ Photo captured! Fill in your details and register.', 'success', 'cameraStatus');
-
-                console.log('📸 Photo captured - Size:', capturedImageData.length, 'bytes');
-            } catch (error) {
-                console.error('❌ Capture error:', error);
-                showStatus('Failed to capture photo: ' + error.message, 'error', 'cameraStatus');
-            }
-        });
-
-        // ===== IMAGE UPLOAD FUNCTIONS =====
-        function handleImageUpload(event) {
-            const file = event.target.files[0];
-
-            if (!file) return;
-
-            console.log('📁 File selected:', file.name, file.size, 'bytes');
-
-            if (!file.type.startsWith('image/')) {
-                showStatus('Please upload a valid image file (JPG, PNG)', 'error', 'uploadStatus');
-                return;
-            }
-
-            if (file.size > 10 * 1024 * 1024) {
-                showStatus('File size must be less than 10MB', 'error', 'uploadStatus');
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                capturedImageData = e.target.result;
-
-                document.getElementById('uploadPreview').src = capturedImageData;
-                document.getElementById('uploadPreview').style.display = 'block';
-                document.getElementById('uploadPlaceholder').style.display = 'none';
-
-                updateProgress();
-                showStatus('✓ Image uploaded! Fill in your details and register.', 'success', 'uploadStatus');
-
-                console.log('✅ Image loaded - Size:', capturedImageData.length, 'bytes');
-            };
-
-            reader.onerror = () => {
-                showStatus('Failed to read file', 'error', 'uploadStatus');
-            };
-
-            reader.readAsDataURL(file);
-        }
-
-        imageUpload.addEventListener('change', handleImageUpload);
-
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.style.background = 'rgba(102, 126, 234, 0.1)';
-            dropZone.style.borderColor = '#667eea';
-        });
-
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.style.background = '';
-            dropZone.style.borderColor = '#ddd';
-        });
-
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.style.background = '';
-            dropZone.style.borderColor = '#ddd';
-
-            const files = e.dataTransfer.files;
-            if (files.length > 0 && files[0].type.startsWith('image/')) {
-                imageUpload.files = files;
-                handleImageUpload({ target: { files } });
-            } else {
-                showStatus('Please drop an image file', 'error', 'uploadStatus');
-            }
-        });
-
-        // ===== REGISTRATION FUNCTIONS =====
-        /**
-         * Register face with API and update Firebase
-         */
-        async function registerFace() {
-            console.log('\n' + '='.repeat(70));
-            console.log('📝 FACE REGISTRATION REQUEST');
-            console.log('='.repeat(70));
-
-            if (!capturedImageData) {
-                showStatus('Please capture or upload a photo first', 'error', 'registrationStatus');
-                return;
-            }
-
-            if (!agreeTermsCheckbox.checked) {
-                showStatus('Please agree to the terms and conditions', 'error', 'registrationStatus');
-                return;
-            }
-
-            registerBtn.disabled = true;
-            showStatus('🔄 Registering your face... This may take a moment.', 'loading', 'registrationStatus');
-
-            try {
-                const payload = {
-                    student_id: currentStudentId,
-                    student_name: studentNameInput.value,
-                    email: emailInput.value,
-                    department: departmentInput.value,
-                    face_image: capturedImageData
-                };
-
-                console.log('📤 Sending to API:', API_URL + '/api/register');
-                console.log('   Student ID:', payload.student_id);
-                console.log('   Name:', payload.student_name);
-                console.log('   Image Size:', payload.face_image.length, 'bytes');
-
-                const response = await fetch(`${API_URL}/api/register`, {
+                ctx.drawImage(video, 0, 0);
+                
+                // Get image as base64
+                const imageBase64 = canvas.toDataURL('image/jpeg');
+                
+                console.log('📤 Sending face image to API...');
+                
+                // Send to API
+                const response = await fetch('http://localhost:5000/api/register', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
+                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({
+                        student_id: studentId,
+                        face_image: imageBase64
+                    })
                 });
-
-                console.log('📥 API Response Status:', response.status);
+                
                 const data = await response.json();
-                console.log('📥 API Response:', data);
-
-                if (response.ok && data.success) {
-                    console.log('✅ API registration successful');
-
-                    // Update Firebase database
-                    await updateFirebaseRecord(data);
-
-                    console.log('✅ Firebase updated successfully');
-                    console.log('='.repeat(70) + '\n');
-
-                    showSuccess(data);
+                console.log('✅ API Response:', data);
+                
+                if (data.success && data.face_registered) {
+                    showStatus('✅ Face registered successfully!', 'success');
+                    setTimeout(() => {
+                        window.history.back();
+                    }, 2000);
                 } else {
-                    const errorMsg = data.error || 'Registration failed';
-                    console.error('❌ Registration failed:', errorMsg);
-                    showStatus(errorMsg, 'error', 'registrationStatus');
-                    registerBtn.disabled = false;
+                    showStatus('❌ Face registration failed: ' + (data.message || 'Unknown error'), 'error');
                 }
+                
             } catch (error) {
                 console.error('❌ Error:', error);
-                console.error('='.repeat(70) + '\n');
-                
-                let errorMsg = 'Network error: ' + error.message;
-                if (error.message.includes('Failed to fetch')) {
-                    errorMsg = 'Cannot connect to server. Is the API running on http://localhost:5000?';
-                }
-
-                showStatus(errorMsg, 'error', 'registrationStatus');
-                registerBtn.disabled = false;
-            }
-        }
-
-        /**
-         * Update Firebase record after successful registration
-         */
-        async function updateFirebaseRecord(apiData) {
-            console.log('🔄 Updating Firebase record...');
-
-            try {
-                const updateData = {
-                    faceRegistered: true,
-                    faceRegisteredAt: new Date().toISOString(),
-                    faceEncodingId: apiData.face_id || 'api_registered'
-                };
-
-                await db.ref(`students/${currentStudentId}`).update(updateData);
-
-                console.log('✅ Firebase record updated');
-            } catch (error) {
-                console.error('⚠️ Firebase update error (non-critical):', error);
-                // Don't throw - face registration succeeded at API level
-            }
-        }
-
-        /**
-         * Show success screen
-         */
-        function showSuccess(data) {
-            mainContent.style.display = 'none';
-            successCard.classList.remove('hidden');
-
-            const successInfo = document.getElementById('successInfo');
-            successInfo.innerHTML = `
-                <div class="info-row">
-                    <div class="info-item">
-                        <span class="info-label">Student ID:</span>
-                        <span class="info-value"><strong>${data.student_id}</strong></span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Name:</span>
-                        <span class="info-value"><strong>${data.student_name || 'N/A'}</strong></span>
-                    </div>
-                </div>
-                <div class="info-row">
-                    <div class="info-item">
-                        <span class="info-label">Face Registered:</span>
-                        <span class="info-value" style="color: #28a745;">✓ Yes</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Status:</span>
-                        <span class="info-value" style="color: #28a745;">✓ Active</span>
-                    </div>
-                </div>
-                <div class="info-row">
-                    <div class="info-item">
-                        <span class="info-label">Registration Time:</span>
-                        <span class="info-value">${new Date().toLocaleString()}</span>
-                    </div>
-                </div>
-            `;
-
-            window.scrollTo(0, 0);
-        }
-
-        /**
-         * Redirect to dashboard
-         */
-        function redirectToDashboard() {
-            window.location.href = 'StudentDashboard.html';
-        }
-
-        /**
-         * Contact admin
-         */
-        function contactAdmin() {
-            window.location.href = 'mailto:admin@university.com?subject=Face Registration Update Needed';
-        }
-
-        // ===== UTILITY FUNCTIONS =====
-        function showStatus(message, type, elementId) {
-            const statusBox = document.getElementById(elementId);
-            statusBox.textContent = message;
-            statusBox.className = `status-box show ${type}`;
-
-            if (type !== 'error' && type !== 'loading') {
-                setTimeout(() => {
-                    statusBox.classList.remove('show');
-                }, 5000);
-            }
-        }
-
-        function updateProgress() {
-            let progress = 0;
-
-            if (capturedImageData) progress += 50;
-            if (agreeTermsCheckbox.checked) progress += 50;
-
-            document.getElementById('progressFill').style.width = progress + '%';
-            document.getElementById('progressPercent').textContent = progress + '%';
-
-            registerBtn.disabled = progress < 100;
-        }
-
-        function switchTab(event, tabName) {
-            if (event) {
-                event.preventDefault();
-            }
-
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-
-            document.getElementById(tabName).classList.add('active');
-
-            if (event) {
-                event.target.closest('.tab-btn').classList.add('active');
-            }
-
-            console.log(`📑 Switched to ${tabName} tab`);
-        }
-
-        function toggleMirrorMode() {
-            const toggle = document.getElementById('mirrorToggle');
-            toggle.classList.toggle('active');
-            isMirrorMode = toggle.classList.contains('active');
-            console.log('🪞 Mirror mode:', isMirrorMode ? 'ON' : 'OFF');
-        }
-
-        // ===== EVENT LISTENERS =====
-        agreeTermsCheckbox.addEventListener('change', updateProgress);
-        registerBtn.addEventListener('click', registerFace);
-
-        resetBtn.addEventListener('click', () => {
-            if (confirm('Are you sure you want to reset the form?')) {
-                location.reload();
+                showStatus('❌ Error: ' + error.message, 'error');
+            } finally {
+                loadingSpinner.style.display = 'none';
+                captureBtn.disabled = false;
             }
         });
-
-        // ===== START =====
-        console.log('🚀 Face Registration Page Loaded');
-        console.log('📡 API URL:', API_URL);
-        initializePage();
+        
+        // Cancel button
+        cancelBtn.addEventListener('click', () => {
+            console.log('❌ Face registration cancelled');
+            window.history.back();
+        });
+        
+        // Show status message
+        function showStatus(message, type) {
+            statusMessage.innerHTML = message;
+            statusMessage.className = `status-message status-${type}`;
+            console.log(`[${type.toUpperCase()}]`, message);
+        }
+        
+        // Start camera on page load
+        window.addEventListener('load', () => {
+            if (studentId) {
+                startCamera();
+            }
+        });
+        
+        // Stop camera on page unload
+        window.addEventListener('beforeunload', () => {
+            if (video.srcObject) {
+                video.srcObject.getTracks().forEach(track => track.stop());
+            }
+        });
     </script>
 </body>
 </html>
